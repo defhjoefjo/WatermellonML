@@ -29,8 +29,10 @@ infoGain is computed by Ent(D) - sum(|D^v|/|D| Ent(D^k))
 """
 
 def infoGain(x, y):
-    x = x.to_numpy()
-    y = y.to_numpy()
+    if isinstance(x, pd.DataFrame) or isinstance(x, pd.Series):
+        x = x.to_numpy()
+    if isinstance(y, pd.DataFrame) or isinstance(y, pd.Series):
+        y = y.to_numpy()
 
     enp = .0
     # set(x) calculates the different kinds in the given propoerty
@@ -38,9 +40,20 @@ def infoGain(x, y):
         prop_idx = np.where(x == prop)
         prop_x = x[prop_idx]
         prop_y = y[prop_idx]
-        enp += len(prop_x)/len(x) * entropy(prop_y)
+        enp += len(prop_x) / len(x) * entropy(prop_y)
     return entropy(y) - enp
 
 
+def gainRatio(x, y):
+    if isinstance(x, pd.DataFrame) or isinstance(x, pd.Series):
+        x = x.to_numpy()
+    if isinstance(y, pd.DataFrame) or isinstance(y, pd.Series):
+        y = y.to_numpy()
 
+    iv = .0
+    for prop in set(x):
+        prop_idx = np.where(x == prop)
+        prop_x = x[prop_idx]
+        iv -= len(prop_x) / len(x) * np.log2(len(prop_x) / len(x))
 
+    return infoGain(x, y) / iv

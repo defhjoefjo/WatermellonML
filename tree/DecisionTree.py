@@ -1,5 +1,6 @@
-import utils
 import pandas as pd
+
+import utils
 
 
 class DecisionTree:
@@ -16,7 +17,10 @@ class DecisionTree:
         x = df.loc[:, df.columns != y_col]
         bestGain = 0
         bestprop = None
-        gainFunc = utils.infoGain
+        if type == "ID3":
+            gainFunc = utils.infoGain
+        elif type == "C4.5":
+            gainFunc = utils.gainRatio
         for props in x.columns.values.tolist():
             curGain = gainFunc(x.loc[:, props], y)
             if (curGain > bestGain):
