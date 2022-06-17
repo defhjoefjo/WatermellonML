@@ -1,5 +1,5 @@
 import unittest
-from utils import entropy, infoGain
+from tree.utils import entropy, infoGain
 import pandas as pd
 
 class MyTestCase(unittest.TestCase):
