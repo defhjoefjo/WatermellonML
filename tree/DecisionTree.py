@@ -31,7 +31,7 @@ class DecisionTree:
                 if len(gb) == 1:
                     cur_node.child.append(self.Node(df[df[bestprop] == v][y_col].mode()[0]))
                 else:
-                    self._build_tree(cur_node, df.drop(bestprop, axis=1), y_col)
+                    self._build_tree(cur_node, df[df[bestprop] == v].drop(bestprop, axis=1), y_col)
             else:
                 cur_node.child.append(self.Node(df[df[bestprop] == v][y_col].mode()[0]))
 
