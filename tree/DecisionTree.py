@@ -37,6 +37,11 @@ class DecisionTree:
             else:
                 return self.Node(None, df[df[bestprop]==v].mode())
 
+    def train(self, df):
+        y_col = df.columns.values.tolist()[-1]
+        root = self.Node("root", df, y_col)
+        return root
+
 
 
 
